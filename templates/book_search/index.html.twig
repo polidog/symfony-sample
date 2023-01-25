@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto 5em; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    .left-margin { margin-left: 10px;}
+    .form_search {
+        margin: 5px;
+        color: white;
+        background-color: #6660f0;
+        border-color: #6660f0;
+        display: inline-block;
+        font-weight: 400;
+        line-height: 1.5;
+        text-align: center;
+        text-decoration: none;
+        vertical-align: middle;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+        font-size: 1rem;
+        border-radius: 0.25rem;
+    }
+    .input {
+        padding: 6px;
+    }
+    .wrapper {
+        display: grid;
+        grid-template-columns: 20% 40%;
+        grid-template-rows: 100%;
+        grid-gap: 10px;
+    }
+    .book-image-box {
+        grid-column: 1;
+        grid-row: 1 / 2;
+        text-align: right;
+        padding-right: 17%;
+    }
+    .book-title-content-box {
+        grid-column: 2 / 3;
+        grid-row: 1;
+    }
+    .book-title {
+        font-size: 1.5em;
+        font-weight: bold;
+    }
+    .book-content {
+        width: 85%;
+    }
+    .register-button {
+        margin: 5px;
+        color: white;
+        background-color: #6660f0;
+        border-color: #6660f0;
+        display: inline-block;
+        font-weight: 400;
+        line-height: 1.5;
+        text-align: center;
+        text-decoration: none;
+        vertical-align: middle;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+        font-size: 1rem;
+        border-radius: 0.25rem;
+    }
+    .book-register-form {
+        text-align: right;
+        padding-right: 15%;
+    }
+</style>
+
+<div class="example-wrapper">
+    {{ form_start(book_search_form) }}
+    {{ form_widget(book_search_form.search_word) }}
+    <span class="left-margin">{{ form_widget(book_search_form.search_button) }}</span>
+    {{ form_end(book_search_form) }}
+</div>
+{% if book_title != '' %}
+    <div class="wrapper">
+        <div class="book-image-box">
+            <img src="{{ book_image }}" alt="{{ book_title }}" title="{{ book_title }}">
+        </div>
+        <div class="book-title-content-box">
+            <div class="book-title">{{ book_title }}</div>
+            <div class="book-content">{{ book_content | length > 330 ? book_content | slice(0, 330) ~ '…' : book_content }}</div>
+            <div class="book-register-form">
+                {{ form_start(book_register_form, {'method' : 'post', 'action': path('book_list_save')}) }}
+                {{ form_widget(book_register_form) }}
+                {{ form_end(book_register_form) }}
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
