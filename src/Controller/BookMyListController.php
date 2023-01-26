@@ -28,14 +28,13 @@ class BookMyListController extends AbstractController
         $num_of_books = $paginator->count();
 
         $maxPages = ceil($num_of_books / $limit);
-        $empty_row_len = $limit - $num_of_books;
+
         return $this->render('book_my_list/index.html.twig', [
             'title' => '持っている本一覧',
             'book_list' => $paginator->getIterator(),
             'maxPages' => $maxPages,
             'thisPage' => $page,
             'num_of_books' => $num_of_books,
-            'empty_row_len' => $empty_row_len
         ]);
     }
 

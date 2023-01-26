@@ -64,16 +64,6 @@
                   <td class="last_column"></td>
                 </tr>
             {% endfor %}
-            {% for row in 1..empty_row_len %}
-                <tr>
-                    <td class="id_column"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="last_column"></td>
-                </tr>
-            {% endfor %}
         </table>
         {% include 'book_my_list/pagenav.html.twig' with [thisPage, maxPages] %}
     {% else %}
