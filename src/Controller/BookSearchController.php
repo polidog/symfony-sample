@@ -110,7 +110,7 @@ class BookSearchController extends AbstractController
         return $this->redirect('book_my_list/page');
     }
 
-    private function bookSearchApiExec(string $isbn) {
+    private function bookSearchApiExec(string $isbn): void {
         $url = 'https://api.openbd.jp/v1/get?isbn=' . $isbn;
 
         $ch = curl_init(); //開始
@@ -124,10 +124,12 @@ class BookSearchController extends AbstractController
         $result   = json_decode($response, true);
 
         curl_close($ch);
-        $this->book_title   = $result[0]['onix']['DescriptiveDetail']['TitleDetail']['TitleElement']['TitleText']['content'];
-        $this->book_isbn    = $result[0]['onix']['RecordReference'];
-        $this->book_author  = $result[0]['onix']['DescriptiveDetail']['Contributor'][0]['PersonName']['content'];
-        $this->book_content = $result[0]['onix']['CollateralDetail']['TextContent'][1]['Text'];
-        $this->book_image   = $result[0]['onix']['CollateralDetail']['SupportingResource'][0]['ResourceVersion'][0]['ResourceLink'];
+        if (!empty($result)) {
+            $this->book_title   = $result[0]['onix']['DescriptiveDetail']['TitleDetail']['TitleElement']['TitleText']['content'];
+            $this->book_isbn    = $result[0]['onix']['RecordReference'];
+            $this->book_author  = $result[0]['onix']['DescriptiveDetail']['Contributor'][0]['PersonName']['content'];
+            $this->book_content = $result[0]['onix']['CollateralDetail']['TextContent'][1]['Text'];
+            $this->book_image   = $result[0]['onix']['CollateralDetail']['SupportingResource'][0]['ResourceVersion'][0]['ResourceLink'];
+        }
     }
 }
