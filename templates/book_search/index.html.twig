@@ -6,6 +6,11 @@
 <style>
     .example-wrapper { margin: 1em auto 5em; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    .example-wrapper form {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+    }
     .left-margin { margin-left: 10px;}
     .form_search {
         margin: 5px;
@@ -27,6 +32,7 @@
     }
     .input {
         padding: 6px;
+        margin: 5px;
     }
     .wrapper {
         display: grid;
@@ -73,26 +79,42 @@
         text-align: right;
         padding-right: 15%;
     }
+    .error {
+      font-size: 12px;
+      color: #ff0000;
+    }
+    .error ul {
+      padding-left:0;
+      margin: 0;
+    }
+    .error ul > li {
+        list-style: none;
+    }
+
 </style>
 
 <div class="example-wrapper">
-    {{ form_start(book_search_form) }}
-    {{ form_widget(book_search_form.search_word) }}
-    <span class="left-margin">{{ form_widget(book_search_form.search_button) }}</span>
-    {{ form_end(book_search_form) }}
+    <form method="get" action="" class="">
+        <div>
+            <div>{{ form_widget(form.isbn) }}</div>
+            <div class="error">{{ form_errors(form.isbn) }}</div>
+        </div>
+        <button type="submit" class="form_search">検索する</button>
+    </form>
 </div>
-{% if book_title != '' %}
+{% if searchResult is not null %}
     <div class="wrapper">
         <div class="book-image-box">
-            <img src="{{ book_image }}" alt="{{ book_title }}" title="{{ book_title }}">
+            <img src="{{ searchResult.imageUrl }}" alt="{{ searchResult.title }}" title="{{ searchResult.title }}">
         </div>
         <div class="book-title-content-box">
-            <div class="book-title">{{ book_title }}</div>
-            <div class="book-content">{{ book_content | length > 330 ? book_content | slice(0, 330) ~ '…' : book_content }}</div>
+            <div class="book-title">{{ searchResult.title }}</div>
+            <div class="book-content">{{ searchResult.summary }}</div>
             <div class="book-register-form">
-                {{ form_start(book_register_form, {'method' : 'post', 'action': path('book_list_save')}) }}
-                {{ form_widget(book_register_form) }}
-                {{ form_end(book_register_form) }}
+                {{ form_start(registerForm, {'method' : 'post', 'action': path('book_list_save')}) }}
+                {{ form_widget(registerForm) }}
+                <button type="submit" class="register-button">持ってる本に登録する</button>
+                {{ form_end(registerForm) }}
             </div>
         </div>
     </div>
