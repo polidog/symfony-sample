@@ -24,9 +24,11 @@ final class InputIsbn
     /**
      * @param string $isbn
      */
-    public function setIsbn(?string $isbn): void
+    public function setIsbn(?string $isbn): self
     {
         $this->isbn = $isbn;
+
+        return $this;
     }
 
     /**

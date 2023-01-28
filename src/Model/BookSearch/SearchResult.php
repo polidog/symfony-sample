@@ -61,14 +61,12 @@ final class SearchResult
 
     public function toEntity(): BookMyList
     {
-        $bookMyList = new BookMyList();
-        $bookMyList->setBookTitle($this->title)
-        ->setIsbn($this->isbn)
-        ->setAuthor($this->author)
-        ->setCreatedAt(new \DateTimeImmutable());
-
+        return (new BookMyList())
+            ->setBookTitle($this->title)
+            ->setIsbn($this->isbn)
+            ->setAuthor($this->author)
+            ->setCreatedAt(new \DateTimeImmutable());
     }
-
 
     public static function createFromApi(array $json): self
     {
