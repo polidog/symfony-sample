@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\BookMyList;
 use App\Form\InputIsbnType;
 use App\Form\RegisterBookMyListType;
 use App\Model\BookSearch\BookSearchExecutor;
@@ -9,10 +10,9 @@ use App\Model\BookSearch\InputIsbn;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use App\Entity\BookMyList;
 
 final class BookSearchController extends AbstractController
 {
@@ -22,11 +22,9 @@ final class BookSearchController extends AbstractController
 
     private string $book_author = '';
 
-
     public function __construct(private BookSearchExecutor $bookSearchExecutor, private EntityManagerInterface $entityManager)
     {
     }
-
 
     #[Route('/book_search', name: 'book_search', methods: ['GET'])]
     #[Template('book_search/index.html.twig')]
@@ -71,5 +69,4 @@ final class BookSearchController extends AbstractController
 
         return $this->redirect('book_my_list/page');
     }
-
 }

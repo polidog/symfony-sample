@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\BookMyList;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\BookMyList;
 
 final class BookMyListController extends AbstractController
 {
@@ -15,7 +15,7 @@ final class BookMyListController extends AbstractController
         'ISBN',
         'book_title',
         'author',
-        'created_at'
+        'created_at',
     ];
 
     private const FILE_NAME = 'book_list.csv';
@@ -49,7 +49,7 @@ final class BookMyListController extends AbstractController
             $file = new \SplFileObject('php://output', 'w');
 
             // BOM入れないとExcelで開く際に文字コード変換が必要になってしまう
-            $file->fwrite(pack('C*',0xEF,0xBB,0xBF));
+            $file->fwrite(pack('C*', 0xEF, 0xBB, 0xBF));
             $file->fputcsv(self::HEADER);
 
             foreach ($contents as $row) {
@@ -58,17 +58,15 @@ final class BookMyListController extends AbstractController
                     $row->getIsbn(),
                     $row->getBookTitle(),
                     $row->getAuthor(),
-                    $row->getCreatedAt()->format('Y-m-d H:i:s')
+                    $row->getCreatedAt()->format('Y-m-d H:i:s'),
                 ], ',', '"');
                 flush();
             }
         });
 
         $response->headers->set('Content-Type', 'application/octet-stream');
-        $response->headers->set('Content-Disposition', 'attachment; filename='. self::FILE_NAME);
+        $response->headers->set('Content-Disposition', 'attachment; filename='.self::FILE_NAME);
 
         return $response;
-
     }
-
 }

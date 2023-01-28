@@ -37,12 +37,11 @@ final class InputIsbn
      */
     public function search(Client $client, string $baseUrl): SearchResult
     {
-        $url = $baseUrl . $this->isbn;
+        $url = $baseUrl.$this->isbn;
         $response = $client->request('GET', $url);
         $body = $response->getBody();
         $json = json_decode($body, true, 512, JSON_THROW_ON_ERROR);
 
         return SearchResult::createFromApi($json);
     }
-
 }

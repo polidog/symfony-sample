@@ -8,9 +8,6 @@ use Symfony\Component\Form\Test\TypeTestCase;
 
 class InputIsbnTypeTest extends TypeTestCase
 {
-    /**
-     * @return void
-     */
     public function testSubmitdData(): void
     {
         $isbn = '978-4798161501';
@@ -28,6 +25,4 @@ class InputIsbnTypeTest extends TypeTestCase
 
         $this->assertSame($isbn, $model->getIsbn());
     }
-
-
 }

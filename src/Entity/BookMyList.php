@@ -79,7 +79,8 @@ class BookMyList
         return $this;
     }
 
-    public function __toString(): string {
+    public function __toString(): string
+    {
         return $this->created_at->format('Y-m-d');
     }
 }

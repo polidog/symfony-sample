@@ -10,41 +10,26 @@ final class SearchResult
     {
     }
 
-    /**
-     * @return string
-     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @return string
-     */
     public function getAuthor(): string
     {
         return $this->author;
     }
 
-    /**
-     * @return string
-     */
     public function getContent(): string
     {
         return $this->content;
     }
 
-    /**
-     * @return string
-     */
     public function getIsbn(): string
     {
         return $this->isbn;
     }
 
-    /**
-     * @return string
-     */
     public function getImageUrl(): string
     {
         return $this->imageUrl;
@@ -53,7 +38,7 @@ final class SearchResult
     public function summary(): string
     {
         if (strlen($this->content) > 330) {
-            return mb_substr($this->content, 0, 330) . '...';
+            return mb_substr($this->content, 0, 330).'...';
         } else {
             return $this->content;
         }

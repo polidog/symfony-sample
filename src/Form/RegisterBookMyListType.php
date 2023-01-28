@@ -24,7 +24,7 @@ class RegisterBookMyListType extends AbstractType
                 'required' => true,
                 'invalid_message' => '10か13桁で数値を入力してください',
                 'constraints' => [
-                    new Assert\Isbn()
+                    new Assert\Isbn(),
                 ],
             ])
         ;

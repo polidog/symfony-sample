@@ -18,7 +18,7 @@ class InputIsbnTest extends KernelTestCase
         $validator = self::bootKernel()->getContainer()->get('validator');
         $errors = $validator->validate($model);
 
-        self::assertSame($expected, count($errors) === 0);
+        self::assertSame($expected, 0 === count($errors));
     }
 
     public function dpIsbn(): array
@@ -26,17 +26,16 @@ class InputIsbnTest extends KernelTestCase
         return [
             [
                 '978-4798161501', // isbn 13
-                true
+                true,
             ],
             [
                 '4798161500', // isbn 10
-                true
+                true,
             ],
             [
                 'abc',
-                false
-            ]
+                false,
+            ],
         ];
     }
-
 }

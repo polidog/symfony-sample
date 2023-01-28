@@ -19,7 +19,7 @@ class InputIsbnType extends AbstractType
                 'attr' => [
                     'placeholder' => 'ISBNコードを入力 ',
                     'class' => 'input',
-                ]
+                ],
             ])
         ;
     }
@@ -32,7 +32,6 @@ class InputIsbnType extends AbstractType
             'method' => 'GET',
         ]);
     }
-
 
     public function getBlockPrefix(): string
     {
