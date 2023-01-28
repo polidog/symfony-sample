@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\BookMyList;
 
-class BookMyListController extends AbstractController
+final class BookMyListController extends AbstractController
 {
     const HEADER = [
         'id',

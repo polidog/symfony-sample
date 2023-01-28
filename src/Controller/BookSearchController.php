@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\BookMyList;
 use Monolog\DateTimeImmutable;
 
-class BookSearchController extends AbstractController
+final class BookSearchController extends AbstractController
 {
     private string $book_title = '';
 
