@@ -9,7 +9,7 @@ use App\Entity\BookMyList;
 
 final class BookMyListController extends AbstractController
 {
-    const HEADER = [
+    private const HEADER = [
         'id',
         'ISBN',
         'book_title',
@@ -17,7 +17,7 @@ final class BookMyListController extends AbstractController
         'created_at'
     ];
 
-    const FILE_NAME = 'book_list.csv';
+    private const FILE_NAME = 'book_list.csv';
 
     #[Route('/book_my_list/page/{page}', name: 'book_my_list/page')]
     public function page($page = 1): Response
