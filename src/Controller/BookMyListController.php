@@ -20,8 +20,8 @@ final class BookMyListController extends AbstractController
 
     private const FILE_NAME = 'book_list.csv';
 
-    #[Route('/book_my_list/page/{page}', name: 'book_my_list/page')]
-    public function page($page = 1): Response
+    #[Route('/book_my_list/page/{page}', name: 'book_my_list/page', requirements: ['page' => '\d+'])]
+    public function page(int $page = 1): Response
     {
         $limit = 9;
         $repository = $this->getDoctrine()->getRepository(BookMyList::class);
