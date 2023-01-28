@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\BookMyList;
 
@@ -39,28 +40,35 @@ final class BookMyListController extends AbstractController
     }
 
     #[Route('/book_my_list/csv_download', name: 'csv_download')]
-    public function csvDownload()
+    public function csvDownload(): Response
     {
-        $contents = $this->getDoctrine()->getRepository(BookMyList::class)->findAll();
+        // @see https://qiita.com/PruneMazui/items/f9f932bfaf1fb7ebb583
+        // @see https://www.karakaram.com/symfony-download-large-csv/
+        $response = (new StreamedResponse())->setCallback(function () {
+            $contents = $this->getDoctrine()->getRepository(BookMyList::class)->findAll();
+            $file = new \SplFileObject('php://output', 'w');
 
-        $fp = fopen('php://output', 'w');
+            // BOM入れないとExcelで開く際に文字コード変換が必要になってしまう
+            $file->fwrite(pack('C*',0xEF,0xBB,0xBF));
+            $file->fputcsv(self::HEADER);
 
-        fputcsv($fp, BookMyListController::HEADER);
-        foreach ($contents as $row) {
-            fputcsv($fp, [
-                $row->getId(),
-                $row->getIsbn(),
-                $row->getBookTitle(),
-                $row->getAuthor(),
-                $row->getCreatedAt()->format('Y-m-d H:i:s')
-            ], ',', '"');
-        }
-        fclose($fp);
+            foreach ($contents as $row) {
+                $file->fputcsv([
+                    $row->getId(),
+                    $row->getIsbn(),
+                    $row->getBookTitle(),
+                    $row->getAuthor(),
+                    $row->getCreatedAt()->format('Y-m-d H:i:s')
+                ], ',', '"');
+                flush();
+            }
+        });
 
-        header('Content-Type: application/octet-stream');
-        header("Content-Disposition: attachment; filename=" . BookMyListController::FILE_NAME);
-        header('Content-Transfer-Encoding: binary');
-        exit;
+        $response->headers->set('Content-Type', 'application/octet-stream');
+        $response->headers->set('Content-Disposition', 'attachment; filename='. self::FILE_NAME);
+
+        return $response;
+
     }
 
 }
